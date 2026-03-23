@@ -1,9 +1,12 @@
 #include "pong.h"
+#include <stdio.h>
 
 void init_pong(Pong* pong, int width, int height)
 {
     pong->width = width;
     pong->height = height;
+    pong->left_point = 0;
+    pong->right_point = 0;
     init_pad(&(pong->left_pad), 0, height, RED_THEME);
     init_pad(&(pong->right_pad), width - 50, height, GREEN_THEME);
     init_ball(&(pong->ball), width / 2, height / 2);
@@ -22,6 +25,7 @@ void render_pong(Pong* pong)
     render_pad(&(pong->left_pad));
     render_pad(&(pong->right_pad));
     render_ball(&(pong->ball));
+    printf("Left player: %d, Right player: %d\n", pong->left_point, pong->right_point);
 }
 
 void set_left_pad_position(Pong* pong, float position)
@@ -48,11 +52,23 @@ void bounce_ball(Pong* pong)
 {
     if (pong->ball.x - pong->ball.radius < 50) {
         pong->ball.x = pong->ball.radius + 50;
-        pong->ball.speed_x *= -1;
+        if(pong->ball.y >= pong->left_pad.y && pong->ball.y + pong->ball.radius  <= pong->left_pad.y + pong->left_pad.height) {
+            pong->ball.speed_x *= -1;
+        }else{
+            pong->ball.x = pong->width/2;
+            pong->ball.y = pong->height/2;
+            pong->right_point++;
+        }
     }
     if (pong->ball.x + pong->ball.radius > pong->width - 50) {
         pong->ball.x = pong->width - pong->ball.radius - 50;
-        pong->ball.speed_x *= -1;
+        if(pong->ball.y >= pong->right_pad.y && pong->ball.y + pong->ball.radius  <= pong->right_pad.y + pong->right_pad.height) {
+            pong->ball.speed_x *= -1;
+        }else{
+            pong->ball.x = pong->width/2;
+            pong->ball.y = pong->height/2;
+            pong->left_point++;
+        }
     }
     if (pong->ball.y - pong->ball.radius < 0) {
         pong->ball.y = pong->ball.radius;

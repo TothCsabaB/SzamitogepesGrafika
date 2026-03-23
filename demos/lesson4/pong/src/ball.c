@@ -9,8 +9,8 @@ void init_ball(Ball* ball, float x, float y)
     ball->x = x;
     ball->y = y;
     ball->radius = 50;
-    ball->speed_x = 500;
-    ball->speed_y = 500;
+    ball->speed_x = 350;
+    ball->speed_y = 350;
 }
 
 void update_ball(Ball* ball, double time)
