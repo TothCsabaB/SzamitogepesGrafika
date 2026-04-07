@@ -24,6 +24,10 @@ void init_ball(Ball* ball, float x, float y);
  */
 void update_ball(Ball* ball, double time);
 
+void update_size(Ball* ball, float size);
+
+void update_ball_manually(Ball* ball, int x, int y);
+
 /**
  * Render the ball.
  */

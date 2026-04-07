@@ -9,14 +9,25 @@ void init_ball(Ball* ball, float x, float y)
     ball->x = x;
     ball->y = y;
     ball->radius = 50;
-    ball->speed_x = 350;
-    ball->speed_y = 350;
+    ball->speed_x = 150;
+    ball->speed_y = 150;
 }
 
 void update_ball(Ball* ball, double time)
 {
     ball->x += ball->speed_x * time;
     ball->y += ball->speed_y * time;
+}
+
+void update_ball_manually(Ball* ball, int x, int y)
+{
+    ball->x = x;
+    ball->y = y;
+}
+
+void update_size(Ball* ball, float size)
+{
+    ball->radius += size;
 }
 
 void render_ball(Ball* ball)
@@ -35,7 +46,7 @@ void render_ball(Ball* ball)
         x = cos(angle) * ball->radius;
         y = sin(angle) * ball->radius;
         glVertex2f(x, y);
-        angle += 0.8;
+        angle += 0.1;
     }
     glEnd();
     glPopMatrix();
