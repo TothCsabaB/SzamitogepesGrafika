@@ -3,6 +3,7 @@
 
 #include "ball.h"
 #include "pad.h"
+#include "counter.h"
 
 #include <stdbool.h>
 
@@ -16,6 +17,8 @@ typedef struct Pong
     Ball ball;
     Pad left_pad;
     Pad right_pad;
+    Counter left_counter;
+    Counter right_counter;
     int left_point;
     int right_point;
 } Pong;
@@ -54,6 +57,12 @@ void set_right_pad_position(Pong* pong, float position);
  * Set the speed of the right pad.
  */
 void set_right_pad_speed(Pong* pong, float speed);
+
+void inc_ball_size(Pong* pong, float size);
+
+void dec_ball_size(Pong* pong, float size);
+
+void set_ball_position(Pong* pong ,int x, int y);
 
 /**
  * Bounce the ball when necessary.
