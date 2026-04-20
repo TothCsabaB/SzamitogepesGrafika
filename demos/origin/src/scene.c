@@ -1,5 +1,6 @@
 #include "scene.h"
 
+#include <math.h>
 #include <GL/gl.h>
 
 void init_scene(Scene* scene)
@@ -32,6 +33,8 @@ void render_scene(const Scene* scene)
     draw_triangle();
 
     draw_chess_board();
+
+    draw_cylinder();
 }
 
 void draw_origin()
@@ -96,7 +99,27 @@ void draw_chess_board()
     
 }
 
-void draw_sphere()
+void draw_cylinder()
 {
+    glBegin(GL_TRIANGLE_STRIP);
+    glColor3f(1, 1, 0);
+    float step = 2*M_PI/64;
+    float top=1.0f;
+    float bottom=0;
+    int count = 0;
+
+    glVertex3f(0.5*cos(0), 0.5*sin(0), top);
+    for(float i = 0; i < 2*M_PI; i+=step)
+    {
+        if(count%2==0){
+            glVertex3f(0.5*cos(i), 0.5*sin(i), bottom);
+        }else{
+            glVertex3f(0.5*cos(i), 0.5*sin(i), top);
+        }
+        count++;
+    }
+    glVertex3f(0.5*cos(0), 0.5*sin(0), top);
     
+    glEnd();
 }
+

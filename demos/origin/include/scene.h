@@ -31,6 +31,6 @@ void draw_triangle();
 
 void draw_chess_board();
 
-void draw_sphere();
+void draw_cylinder();
 
 #endif /* SCENE_H */
