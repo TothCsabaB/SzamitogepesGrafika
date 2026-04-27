@@ -35,6 +35,10 @@ void render_scene(const Scene* scene)
     draw_chess_board();
 
     draw_cylinder();
+
+    draw_sphere();
+
+    draw_cone();
 }
 
 void draw_origin()
@@ -101,25 +105,88 @@ void draw_chess_board()
 
 void draw_cylinder()
 {
+    float buffer[64][2];
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1, 1, 0);
     float step = 2*M_PI/64;
-    float top=1.0f;
+    float top=0.4f;
     float bottom=0;
-    int count = 0;
+    float radius = 0.2;
+    float center_x = 0.7;
+    float center_y = 0.4;
+    int count=0;
 
-    glVertex3f(0.5*cos(0), 0.5*sin(0), top);
     for(float i = 0; i < 2*M_PI; i+=step)
     {
-        if(count%2==0){
-            glVertex3f(0.5*cos(i), 0.5*sin(i), bottom);
-        }else{
-            glVertex3f(0.5*cos(i), 0.5*sin(i), top);
-        }
+        float x = radius*cos(i)+center_x;
+        float y = radius*sin(i)+center_y;
+        glVertex3f(x, y, top);
+        glVertex3f(x, y, bottom);
+        buffer[count][0]=x;
+        buffer[count][1]=y;
         count++;
     }
-    glVertex3f(0.5*cos(0), 0.5*sin(0), top);
+    glEnd();
+
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(center_x, center_y, top);
+    for (int i = 0; i < 64; i++)
+    {
+        glVertex3f(buffer[i][0], buffer[i][1], top);
+    }
+    glVertex3f(buffer[0][0], buffer[0][1], top);
+    glEnd();
+}
+
+void draw_sphere()
+{
+    float step = 2*M_PI/20;
+    float vertical_step = M_PI/10;
+    float radius = 0.15;
+    float center_x = 0.3;
+    float center_y = 0.7;
+    float center_z = 0.2;
     
+    for (float j = 0; j < M_PI; j+=vertical_step)
+    {
+        glBegin(GL_TRIANGLE_STRIP);
+        glColor3f(0.5, 0.5, 0.5);
+        for(float i = 0; i < 2*M_PI + 0.001; i+=step)
+        {
+            float x = radius * sin(j) * cos(i) + center_x;
+            float x_up = radius * sin(j+vertical_step) * cos(i) + center_x;
+
+            float y = radius * sin(j) * sin(i) + center_y;
+            float y_up = radius *sin(j+vertical_step) * sin(i) + center_y;
+
+            
+            glVertex3f(x, y, radius*cos(j)+center_z);
+
+            glVertex3f(x_up, y_up, radius* cos(j+vertical_step)+center_z);
+        }
+        glEnd();
+    }
+}
+
+void draw_cone()
+{
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3f(0.7, 0.7, 0.7);
+    float step = 2*M_PI/64;
+    float top=0.4f;
+    float bottom=0;
+    float radius = 0.15;
+    float center_x = 0.8;
+    float center_y = 0.85;
+
+    glVertex3f(center_x, center_y, top);
+    for (float i = 0; i < 2*M_PI; i+=step)
+    {
+        float x = radius*cos(i)+center_x;
+        float y = radius*sin(i)+center_y;
+
+        glVertex3f(x, y, bottom);
+    }
     glEnd();
 }
 

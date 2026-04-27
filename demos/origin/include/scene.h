@@ -33,4 +33,8 @@ void draw_chess_board();
 
 void draw_cylinder();
 
+void draw_sphere();
+
+void draw_cone();
+
 #endif /* SCENE_H */
